@@ -1,10 +1,8 @@
 <?php
 
-namespace common\models;
+namespace frontend\modules\api\models;
 
-use Yii;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
+use frontend\modules\api\models\query\TaskQuery;
 
 /**
  * This is the model class for table "task".
@@ -21,37 +19,18 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_at
  * @property int $updated_at
  *
- * @property User $executor
- * @property User $creator
- * @property User $updater
- *
- * @property Project $project
+ * @property User $executor0
+ * @property User $creator0
+ * @property User $updater0
  */
-class Task extends \yii\db\ActiveRecord
+class Task extends \common\models\Task
 {
-    const RELATION_PROJECT = "project";
-
-
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'task';
-    }
-
-    public function behaviors()
-    {
-        return [
-            array(
-                'class' => TimestampBehavior::class,
-            ),
-            [
-                'class' => BlameableBehavior::class,
-                'createdByAttribute' => 'creator_id',
-                'updatedByAttribute' => 'updater_id'
-            ]
-        ];
     }
 
     /**
@@ -93,7 +72,7 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getExecutor()
+    public function getExecutor0()
     {
         return $this->hasOne(User::className(), ['id' => 'executor_id']);
     }
@@ -101,7 +80,7 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCreator()
+    public function getCreator0()
     {
         return $this->hasOne(User::className(), ['id' => 'creator_id']);
     }
@@ -109,25 +88,17 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUpdater()
+    public function getUpdater0()
     {
         return $this->hasOne(User::className(), ['id' => 'updater_id']);
     }
 
     /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProject()
-    {
-        return $this->hasOne(Project::className(), ['id' => 'project_id']);
-    }
-
-    /**
      * {@inheritdoc}
-     * @return \common\models\query\TaskQuery the active query used by this AR class.
+     * @return TaskQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\query\TaskQuery(get_called_class());
+        return new TaskQuery(get_called_class());
     }
 }
