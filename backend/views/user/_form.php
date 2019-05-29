@@ -1,5 +1,6 @@
 <?php
 
+use common\models\User;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -10,14 +11,25 @@ use yii\widgets\ActiveForm;
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'], 'layout' => 'horizontal',
+        'fieldConfig' => [
+            'horizontalCssClasses' => ['label' => 'col-sm-2',]
+        ],
+    ]); ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'username')->textInput() ?>
+    <?= $form->field($model, 'email')->textInput() ?>
+    <?= $form->field($model, 'password')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList(User::STATUS_LABELS) ?>
+    <?= $form->field($model, 'avatar')
+        ->fileInput(['accept' => 'image/*'])
+        ->label('Avatar' . PHP_EOL . Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_PREVIEW)))
+    ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php \yii\bootstrap\ActiveForm::end(); ?>
 
 </div>
