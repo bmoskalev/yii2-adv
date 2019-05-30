@@ -115,6 +115,7 @@ use yii\helpers\Html;
 
                             <p>
                                 <?= Yii::$app->user->identity->username?> - Web Developer
+                                <?= Yii::$app->user->identity->email?> - Email
                                 <small>Member since Nov. 2012</small>
                             </p>
                         </li>

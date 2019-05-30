@@ -28,16 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
-            //'email:email',
+//            'auth_key',
+//            'password_hash',
+//            'password_reset_token',
+            'email:email',
             [
                 'attribute' => 'status',
-                'filter' => \common\models\User::STATUS_LABELS
+                'filter' => \common\models\User::STATUS_LABELS,
+                'value' => function (\common\models\User $user) {
+                    return \common\models\User::STATUS_LABELS[$user->status];
+                },
             ],
-            //'created_at',
-            //'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
             //'access_token',
             //'avatar',
             //'verification_token',

@@ -44,7 +44,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'access_token',
             [
                 'attribute' => 'avatar',
-                'value' => Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_PREVIEW))
+                'value' => Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_PREVIEW)),
+                'format'=>'raw',
             ],
             // 'verification_token',
         ],
