@@ -31,16 +31,22 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
+            // 'auth_key',
+            // 'password_hash',
+            // 'password_reset_token',
             'email:email',
-            'status',
-            'created_at',
-            'updated_at',
-            'access_token',
-            'avatar',
-            'verification_token',
+            [
+                'attribute' => 'status',
+                'value' => \common\models\User::STATUS_LABELS[$model->status],
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
+            // 'access_token',
+            [
+                'attribute' => 'avatar',
+                'value' => Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_PREVIEW))
+            ],
+            // 'verification_token',
         ],
     ]) ?>
 
