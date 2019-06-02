@@ -30,8 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'description:ntext',
-            'active',
-            'creator_id',
+//            'active',
+            [
+                'attribute' => 'Active',
+                'value' => function (\common\models\Project $project) {
+                    return \common\models\Project::STATUS_LABELS[$project->active];
+                },
+            ],
+//            'creator_id',
+            [
+                'attribute' => 'Creator',
+                'value' => function (\common\models\Project $project) {
+                    return $project->creator->username;
+                },
+            ],
             //'updater_id',
             //'created_at',
             //'updated_at',

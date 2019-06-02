@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Project;
 use common\models\search\ProjectSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -69,9 +71,11 @@ class ProjectController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+        $users = User::find()->select('username')->indexBy('id')->column();
 
         return $this->render('create', [
             'model' => $model,
+            'users' => $users,
         ]);
     }
 
@@ -86,7 +90,7 @@ class ProjectController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($this->loadModel(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -123,5 +127,15 @@ class ProjectController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    private function loadModel(Project $model)
+    {
+        $data = Yii::$app->request->post($model->formName());
+        $projectUser = $data(Project::RELATION_PROJECT_USERS) ?? null;
+        if ($projectUser !== null) {
+            $model->projectUsers = $projectUser === '' ? [] : $projectUser;
+        }
+        return $model->load(Yii::$app->request->post());
     }
 }

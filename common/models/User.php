@@ -52,8 +52,8 @@ class User extends ActiveRecord implements IdentityInterface
     const SCENARIO_INSERT = 'insert';
     const SCENARIO_UPDATE = 'update';
 
-    const AVATAR_PREVIEW='preview';
-    const AVATAR_ICO='ico';
+    const AVATAR_PREVIEW = 'preview';
+    const AVATAR_ICO = 'ico';
 
 
     /**
@@ -94,7 +94,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['username', 'email'], 'required'],
             [['username', 'email', 'password'], 'safe'],
-			['email', 'email'],
+            ['email', 'email'],
             ['status', 'in', 'range' => self::STATUSES],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['avatar', 'image', 'extensions' => 'jpg, jpeg, gif, png', 'on' => self::SCENARIO_UPDATE],
@@ -313,4 +313,5 @@ class User extends ActiveRecord implements IdentityInterface
         }
         return true;
     }
+
 }
