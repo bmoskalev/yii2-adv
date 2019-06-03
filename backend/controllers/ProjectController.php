@@ -71,11 +71,9 @@ class ProjectController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-        $users = User::find()->select('username')->indexBy('id')->column();
 
         return $this->render('create', [
             'model' => $model,
-            'users' => $users,
         ]);
     }
 
@@ -89,13 +87,18 @@ class ProjectController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $users = User::find()->select('username')->indexBy('id')->column();
 
-        if ($this->loadModel(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->loadModel($model) && $model->save()) {
+            return $this->render('update', [
+                'model' => $model,
+                'users' => $users,
+            ]);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'users' => $users,
         ]);
     }
 
@@ -132,7 +135,7 @@ class ProjectController extends Controller
     private function loadModel(Project $model)
     {
         $data = Yii::$app->request->post($model->formName());
-        $projectUser = $data(Project::RELATION_PROJECT_USERS) ?? null;
+        $projectUser = $data[Project::RELATION_PROJECT_USERS] ?? null;
         if ($projectUser !== null) {
             $model->projectUsers = $projectUser === '' ? [] : $projectUser;
         }

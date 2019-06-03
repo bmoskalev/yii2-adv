@@ -20,33 +20,34 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->dropDownList(\common\models\Project::STATUS_LABELS) ?>
 
-    <?= $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)
-        ->widget(\unclead\multipleinput\MultipleInput::class, [
-            'id' => 'project-user-widget',
-            'min' => 0,
-            'max' => 10,
-            'addButtonPosition' => \unclead\multipleinput\MultipleInput::POS_HEADER,
-            'columns' => [
-                [
-                    'name' => 'project_id',
-                    'type' => 'hiddenInput',
-                    'defaultValue' => $model->id,
-                ],
-                [
-                    'name' => 'user_id',
-                    'type' => 'dropDownList',
-                    'title' => 'User',
-                    'items' => $users,
-                ],
-                [
-                    'name' => 'role',
-                    'type' => 'dropDownList',
-                    'title' => 'Role',
-                    'items' => \common\models\ProjectUser::ROLE_LABELS,
-                ],
-            ]
-        ]) ?>
-
+    <?php if (!$model->isNewRecord): ?>
+        <?= $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)
+            ->widget(\unclead\multipleinput\MultipleInput::class, [
+                'id' => 'project-user-widget',
+                'min' => 0,
+                'max' => 10,
+                'addButtonPosition' => \unclead\multipleinput\MultipleInput::POS_HEADER,
+                'columns' => [
+                    [
+                        'name' => 'project_id',
+                        'type' => 'hiddenInput',
+                        'defaultValue' => $model->id,
+                    ],
+                    [
+                        'name' => 'user_id',
+                        'type' => 'dropDownList',
+                        'title' => 'User',
+                        'items' => $users,
+                    ],
+                    [
+                        'name' => 'role',
+                        'type' => 'dropDownList',
+                        'title' => 'Role',
+                        'items' => \common\models\ProjectUser::ROLE_LABELS,
+                    ],
+                ]
+            ]) ?>
+    <?php endif; ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
