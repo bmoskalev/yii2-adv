@@ -1,4 +1,8 @@
 <?php
+
+use common\services\AssignRoleEvent;
+use common\services\ProjectService;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -8,6 +12,19 @@ return [
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'projectService' => [
+            'class' => common\services\ProjectService::class,
+            'on ' . ProjectService::EVENT_ASSIGN_ROLE =>
+                function (AssignRoleEvent $e) {
+                    Yii::$app->notificationService->sendAboutNewProjectRole($e->project, $e->user, $e->role);
+                },
+        ],
+        'notificationService' => [
+            'class' => common\services\NotificationService::class,
+        ],
+        'emailService' => [
+            'class' => common\services\EmailService::class,
         ],
 
     ],

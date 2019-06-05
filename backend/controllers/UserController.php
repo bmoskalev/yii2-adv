@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\User;
 use backend\models\search\UserSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,6 +25,15 @@ class UserController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -87,6 +97,25 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
         $model->setScenario(User::SCENARIO_UPDATE);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Updates the current User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionProfile()
+    {
+        $model = $this->findModel(\Yii::$app->user->id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
