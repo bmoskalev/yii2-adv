@@ -22,8 +22,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title') ?>
 
-    <?= $form->field($model, 'description') ?>
-
     <?= $form->field($model, 'active') ?>
 
     <?= $form->field($model, 'creator_id') ?>
