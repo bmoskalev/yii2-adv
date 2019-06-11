@@ -4,6 +4,7 @@ use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii2mod\comments\widgets\Comment;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Project */
@@ -47,4 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
+    <?php echo \yii2mod\comments\widgets\Comment::widget([
+        'model' => $model,
+    ]); ?>
 </div>

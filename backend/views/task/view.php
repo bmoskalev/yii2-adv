@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii2mod\comments\widgets\Comment;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Task */
@@ -42,5 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
+    <?php echo Comment::widget([
+        'model' => $model,
+    ]); ?>
 
 </div>

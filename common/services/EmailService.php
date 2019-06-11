@@ -5,9 +5,8 @@ namespace common\services;
 
 
 use Yii;
-use yii\base\Component;
 
-class EmailService extends Component
+class EmailService implements EmailServiceInterface
 {
     public function send($to, $subject, $viewHTML, $viewText, $data)
     {

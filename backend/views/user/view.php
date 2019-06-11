@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii2mod\comments\widgets\Comment;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
@@ -50,5 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'verification_token',
         ],
     ]) ?>
+    <?php echo Comment::widget([
+        'model' => $model,
+    ]); ?>
 
 </div>
